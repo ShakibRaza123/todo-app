@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdn3.devexpress.com/jslib/17.1.6/js/dx.all.js"></script>
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/17.1.4/css/dx.spa.css">
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/17.1.4/css/dx.common.css">
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/17.1.4/css/dx.light.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="styles/style.css">
+
+
+      
+</head>
+<body>
+	<div class="container">
+        <div class="cross"><i class="fa fa-times" aria-hidden="true"></i></div>
+		<h2>Team</h2>
+		<h3 style="padding: 25px 18px 10px;">Invite or Add a Person</h3>
+
+         <!-- The form -->
+
+         <div class="dx-viewport demo-container">
+            <div class="form">
+                <div class="dx-fieldset">
+      
+                    <div class="dx-field">
+                        <div class="dx-field-value">
+                            <div id="cnameSelection"></div>
+                            
+                        </div>  
+                        
+                    </div>
+                   
+                     
+                </div>
+            </div>
+        </div>
+
+
+        <div id="overflowTest">
+<form action="succfully.html">
+	<ul id="incomplete-tasks">
+
+			<li><input type="checkbox"><label>Fanny Russell</label>
+                <input type="text" value="Fanny Russell">
+                    <button class="edit"><i class="fas fa-edit"></i></button>
+                        <button class="delete"><i class="fad fa-times-circle"></i>
+                </button>
+            </li>
+			
+            <li><input type="checkbox"><label>Rodney Meyer</label>
+                <input type="text" value="Rodney Meyer">
+                <button class="edit"><i class="fas fa-edit"></i>
+                    </button><button class="delete"><i class="fad fa-times-circle"></i>
+                </button>
+            </li>
+            
+            <li><input type="checkbox"><label>Ellen Simmons</label>
+                <input type="text" value="Ellen Simmons">
+                <button class="edit"><i class="fas fa-edit"></i>
+                    </button>
+                <button class="delete">
+                <i class="fad fa-times-circle"></i></i>
+            </button>
+        </li>
+            
+            <li><input type="checkbox"><label>Virgin Kim</label>
+                <input type="text" value="Virgin Kim">
+            <button class="edit"><i class="fas fa-edit"></i></button>
+                <button class="delete"><i class="fad fa-times-circle"></i>
+            </button>
+        </li>
+            
+            <li><input type="checkbox"><label>Emma Castro</label>
+                <input type="text" value="Emma Castro">
+                <button class="edit">
+                    <i class="fas fa-edit"></i></button><button class="delete"><i class="fad fa-times-circle"></i></button></li>
+           
+        </ul>
+
+</form>
+    </div>
+
+    <div class="footer">
+        <div class="back-btn">
+
+             <i class="fal fa-angle-left"></i> <a href="index.html"><button style="font-weight: bold;"> Back</button></a>
+            
+
+        </div>
+
+        
+        <div class="f-btn">
+           <a href="succfully.html"><button type="button" class="btn btn-cyan waves-effect waves-light">Create Project</button></a>
+        </div>
+
+    </div>
+    
+</div>
+     
+		
+
+
+</div>
+
+      
+
+  
+</form>
+
+    <script>
+  var withoutControl, withControl;
+$(function(){ 
+    var withEl = $('#cnameSelection');
+    var withoutEl = $('#cnameHide');
+    var multiline = true, showSelectAll = true, removeItemsFromList = true;
+    var withoutItems = [];
+    var withItems = [];
+
+    for (var i = 0; i < cname.length; i++) {
+      withItems.push({ "Id": cname[i].ID, "Description": cname[i].Name });
+    }
+
+    for (var i = 0; i < cname.length; i++) {
+      withoutItems.push({ "Id": cname[i].ID, "Description": cname[i].Name });
+    }
+
+    var hasVals = new DevExpress.data.DataSource({
+      store: {
+        type: "array",
+        key: "Id",
+        data: withItems
+      },
+      sort: 'Description',
+      paginate: true,
+      pageSize: 500
+    });
+
+    var hasNotVals = new DevExpress.data.DataSource({
+      store: {
+        type: "array",
+        key: "Id",
+        data: withoutItems
+      },
+      sort: 'Description',
+      paginate: true,
+      pageSize: 500
+    });
+    
+    withControl = withEl.dxTagBox({
+            dataSource: hasVals,
+            showSelectionControls: true,
+            multiline: multiline,
+            displayExpr: "Description",
+            valueExpr: "Id",
+            searchEnabled: true,
+            selectAllMode: "allPages",
+            showSelectionControls: true,
+            applyValueMode: "useButtons",
+            onSelectionChanged: function (e) {
+              if(removeItemsFromList) {
+                    if (withoutControl != null) {
+                        for (var i = 0; i < withoutControl._selectedItems.length; i++) {
+                            hasNotVals.store().load({
+                                filter: ["Id", withoutControl._selectedItems[i].Id]
+                            })
+                            .done(function (result) {
+                                if (result.length == 0) {
+                                    hasNotVals.store().insert(
+                                    {
+                                        Id: withoutControl._selectedItems[i].Id,
+                                        Description: withoutControl._selectedItems[i].Description
+                                    });
+                                }
+                            });
+                        }
+                    }
+                
+                    if (withControl != null) {
+                        for (var i = 0; i < withControl._selectedItems.length; i++) {
+                            hasVals.store().load({
+                                filter: ["Id", withControl._selectedItems[i].Id]
+                            })
+                            .done(function (result) {
+                                if (result.length == 0) {
+                                    hasVals.store().insert(
+                                    {
+                                        Id: withControl._selectedItems[i].Id,
+                                        Description: withControl._selectedItems[i].Description
+                                    });
+                                }
+                            });
+                          
+                            hasNotVals.store().remove(withControl._selectedItems[i].Id);
+                        } 
+                    }
+                 
+
+                    for (var i = 0; i < e.addedItems.length; i++) {
+                        hasNotVals.store().remove(e.addedItems[i].Id);
+                    }
+
+                    for (var i = 0; i < e.removedItems.length; i++) {
+                        hasNotVals.store().insert({ Id: e.removedItems[i].Id, Description: e.removedItems[i].Description });
+                    }
+                    hasNotVals.reload();
+                    hasVals.reload();
+                }
+            },
+            onContentReady: function (e) {
+                if (!showSelectAll) {
+                    $('.dx-list-select-all').hide();
+                }
+            }
+        }).dxTagBox('instance');
+
+        withoutControl = withoutEl.dxTagBox({
+            dataSource: hasNotVals,
+            hideSelectedItems: false,
+            showSelectionControls: true,
+            multiline: multiline,
+            showClearButton: true,
+            searchEnabled: true,
+            selectAllMode: "allPages",
+            displayExpr: "Description",
+            valueExpr: "Id",
+            applyValueMode: "useButtons",
+            onSelectionChanged: function (e) {
+                if (removeItemsFromList) {
+                    if (withControl != null) {
+                        for (var i = 0; i < withControl._selectedItems.length; i++) {
+                            hasVals.store().load({
+                                filter: ["Id", withControl._selectedItems[i].Id]
+                            })
+                            .done(function (result) {
+                                if (result.length == 0) {
+                                    hasVals.store().insert(
+                                    {
+                                        Id: withControl._selectedItems[i].Id,
+                                        Description: withControl._selectedItems[i].Description
+                                    });
+                                }
+                            });
+                        }
+                    }
+                    if (withoutControl != null) {
+                        for (var i = 0; i < withoutControl._selectedItems.length; i++) {
+                            hasVals.store().remove(withoutControl._selectedItems[i].Id);
+                        }
+                    }
+                    for (var i = 0; i < e.addedItems.length; i++) {
+                        hasVals.store().remove(e.addedItems[i].Id);
+                    }
+
+                    for (var i = 0; i < e.removedItems.length; i++) {
+                        hasVals.store().insert({ Id: e.removedItems[i].Id, Description: e.removedItems[i].Description });
+                    }
+
+                    hasVals.reload();
+                }
+            },
+            onContentReady: function (e) {
+                if (!showSelectAll) {
+                    $('.dx-list-select-all').hide();
+                }
+            }
+        }).dxTagBox('instance'); 
+ 
+ 
+}); 
+
+var cname = [{
+    "ID": 1,
+    "Name": "Emma Castro",
+
+}, {
+    "ID": 2,
+    "Name": "Robert Pattinson",
+    
+}, {
+    "ID": 3,
+    "Name": "Steve Waugh",
+ 
+
+}];
+    </script>
+
+</body>
+</html>

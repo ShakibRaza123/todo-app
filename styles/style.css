@@ -1,0 +1,30 @@
+.dx-field-value:not(.dx-switch):not(.dx-checkbox):not(.dx-button), .dx-field-value-static {
+    width: 100%;
+    margin-top: -25px;
+   
+}
+
+button.btn.btn-cyan.waves-effect.waves-light {
+    font-size: 15px;
+    padding: .85rem 2.13rem;
+    margin: 6px;
+    border-radius: 2px;
+    border: 0;
+    -webkit-transition: .2s ease-out;
+    transition: .2s ease-out;
+    white-space: normal!important;
+    cursor: pointer;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 6px;
+    width: 35%;
+}
+.dx-tag-content {
+    margin: 4px 0 0 4px;
+    padding: 3px 25px 4px 6px;
+    min-width: 40px;
+    background-color: #191717;
+    border-radius: 5px;
+    color: white;
+}
